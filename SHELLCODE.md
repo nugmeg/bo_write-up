@@ -8,7 +8,7 @@
 execve("/bin/sh", ["/bin/sh"], null)
 ```
 
-2. the address of the first 3 arguments of `execve` are stored at `rdi`, `rxi`, `rdx`.
+2. the address of the first 3 arguments of `execve` are stored at `rdi`, `rsi`, `rdx`.
 
 3. to load null pointer into `rdx`, we should do
 
